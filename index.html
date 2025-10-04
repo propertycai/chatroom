@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <!-- 字符编码声明：使用 UTF-8 支持中文等多语言字符 -->
+    <meta charset="UTF-8">
+    
+    <!-- 视口设置：响应式设计配置，禁止用户缩放以保持界面一致性 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    
+    <!-- PWA 配置：允许网页作为独立 Web 应用运行 -->
+    <meta name="mobile-web-app-capable" content="yes">
+    
+    <!-- iOS Safari 配置：在 iOS 设备上以全屏模式运行 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    
+    <!-- iOS 状态栏样式：设置为半透明黑色以适配深色主题 -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- 页面标题：显示在浏览器标签页 -->
+    <title>华北理工大学25信科1蔡岳江开发-小小聊天室</title>
+    
+    <!-- 引入样式表：所有页面样式定义 -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- ==================== 登录界面 ==================== -->
+    <!-- 登录容器：默认显示，用户进入时看到的第一个界面 -->
+    <div id="loginContainer" class="login-container">
+        
+        <!-- 登录卡片：居中显示的登录表单区域 -->
+        <div class="login-box">
+            
+            <!-- 学校标识：显示华北理工大学校徽 -->
+            <div class="school-badge">
+                <img src="ncst.jpg" alt="华北理工大学校徽" class="school-logo">
+            </div>
+            
+            <!-- 登录标题：显示应用名称和开发者信息 -->
+            <h1 class="login-title">华北理工大学<br>25信科1蔡岳江开发-小小聊天室</h1>
+            
+            <!-- 副标题：提示用户输入昵称 -->
+            <p class="subtitle">请输入你的昵称加入聊天</p>
+            
+            <!-- 昵称输入框：限制 20 字符，关闭自动完成避免干扰 -->
+            <input type="text" id="usernameInput" placeholder="输入你的昵称..." maxlength="20" autocomplete="off">
+            
+            <!-- 密码输入框：可选填写，用于加入有密码保护的聊天室 -->
+            <input type="password" id="passwordInput" placeholder="输入聊天室密码（如无密码请留空）" maxlength="50" autocomplete="off">
+            
+            <!-- 加入按钮：点击后验证输入并进入聊天室 -->
+            <button id="joinBtn" class="btn btn-primary">加入聊天室</button>
+        </div>
+        
+        <!-- 开发者水印：显示学校和开发者信息，固定在页面底部 -->
+        <div class="developer-watermark">
+            <p>华北理工大学</p>
+            <p>25信科1 蔡岳江 开发</p>
+        </div>
+    </div>
+
+    <!-- ==================== 聊天界面 ==================== -->
+    <!-- 聊天容器：登录成功后显示，默认隐藏 -->
+    <div id="chatContainer" class="chat-container hidden">
+        
+        <!-- 顶部导航栏：显示应用标题、连接状态、用户信息等 -->
+        <header class="chat-header">
+            
+            <!-- 左侧区域：应用标识和状态信息 -->
+            <div class="header-left">
+                <!-- 移动端用户列表切换按钮：仅在移动设备上显示 -->
+                <button id="toggleUsersBtn" class="btn btn-secondary" style="display: none;">👥</button>
+                
+                <!-- 应用 Logo：显示学校校徽 -->
+                <img src="ncst.jpg" alt="校徽" class="header-logo">
+                
+                <!-- 应用标题：双行显示学校和应用名称 -->
+                <h2 class="chat-title">
+                    <span class="title-line1">华北理工大学25信科1</span>
+                    <span class="title-line2">蔡岳江开发-小小聊天室</span>
+                </h2>
+                
+                <!-- 连接状态指示器：显示 WebSocket 连接状态（已连接/未连接） -->
+                <span id="connectionStatus" class="status-indicator">● 已连接</span>
+            </div>
+            
+            <!-- 右侧区域：用户信息和退出按钮 -->
+            <div class="header-right">
+                <!-- 当前用户昵称：显示登录用户的昵称 -->
+                <span id="currentUsername" class="current-user"></span>
+                
+                <!-- 退出按钮：点击后退出聊天室返回登录页面 -->
+                <button id="logoutBtn" class="btn btn-secondary">退出</button>
+            </div>
+        </header>
+
+        <!-- 主内容区域：包含用户列表和聊天区域 -->
+        <div class="chat-main">
+            <!-- 移动端遮罩层：打开侧边栏时显示，点击可关闭侧边栏 -->
+            <div id="sidebarOverlay" class="sidebar-overlay"></div>
+            
+            <!-- 用户列表侧边栏：显示所有在线用户 -->
+            <aside id="usersSidebar" class="users-sidebar">
+                
+                <!-- 侧边栏头部：显示标题和在线用户数 -->
+                <div class="sidebar-header">
+                    <h3>👥 在线用户</h3>
+                    <!-- 在线用户数量徽章 -->
+                    <span id="userCount" class="user-count">0</span>
+                </div>
+                
+                <!-- 用户列表：动态显示所有在线用户的昵称 -->
+                <ul id="usersList" class="users-list"></ul>
+            </aside>
+
+            <!-- 消息区域容器：包含消息显示区和输入区 -->
+            <div class="messages-container">
+                
+                <!-- 消息显示区：滚动显示所有聊天消息 -->
+                <div id="messagesArea" class="messages-area"></div>
+
+                <!-- 消息输入区域：底部固定的输入框和发送按钮 -->
+                <div class="input-area">
+                    
+                    <!-- 输入框包装器：文本框和发送按钮的水平布局 -->
+                    <div class="input-wrapper">
+                        <!-- 消息输入框：多行文本框，支持 Enter 发送和 Shift+Enter 换行 -->
+                        <textarea id="messageInput" placeholder="输入消息... (按 Enter 发送，Shift+Enter 换行)" rows="1" maxlength="500"></textarea>
+                        
+                        <!-- 发送按钮：点击发送消息，带飞机图标 -->
+                        <button id="sendBtn" class="btn btn-send" title="发送消息">
+                            <!-- SVG 图标：纸飞机样式表示发送动作 -->
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                                <path d="M22 2L11 13M22 2L15 22L11 13M22 2L2 8L11 13" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- 输入框底部信息栏：字符计数和水印 -->
+                    <div class="input-footer">
+                        <!-- 字符计数器：显示已输入字符数和最大限制 -->
+                        <span id="charCount">0/500</span>
+                        
+                        <!-- 聊天水印：显示开发者信息 -->
+                        <div class="chat-watermark">
+                            <img src="ncst.jpg" alt="校徽" class="mini-logo">
+                            <span>华北理工大学 25信科1 蔡岳江开发</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript 脚本：引入编译后的客户端代码 -->
+    <script src="js/client.js"></script>
+</body>
+</html> 

@@ -1,0 +1,909 @@
+/* ==================== 全局样式 ==================== */
+
+/* 全局重置：移除所有元素的默认边距和内边距，统一盒模型 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;  /* 边框和内边距计入元素总宽高 */
+}
+
+/* CSS 变量定义：集中管理颜色和样式，方便统一修改主题 */
+:root {
+    /* 主色调：品牌蓝色，用于按钮、链接等主要交互元素 */
+    --primary-color: #5b7aff;
+    --primary-hover: #4a6ae0;  /* 主色悬停效果 */
+    
+    /* 状态颜色：用于表示不同的状态信息 */
+    --success-color: #00d97e;  /* 成功/在线状态（绿色） */
+    --danger-color: #f44336;   /* 错误/离线状态（红色） */
+    
+    /* 背景色：深色主题的背景层次 */
+    --bg-dark: #1a1d2e;    /* 最深背景色（页面底色） */
+    --bg-card: #22273b;    /* 卡片背景色（中间层） */
+    --bg-light: #2d3348;   /* 浅色背景（输入框等） */
+    
+    /* 文字颜色：三个层次的文字颜色 */
+    --text-primary: #ffffff;    /* 主要文字（白色） */
+    --text-secondary: #a0a8c0;  /* 次要文字（浅灰） */
+    --text-muted: #6c7593;      /* 弱化文字（深灰） */
+    
+    /* 其他样式 */
+    --border-color: #3a3f54;  /* 边框颜色 */
+    --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);      /* 标准阴影 */
+    --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);   /* 大阴影（强调效果） */
+}
+
+/* 页面主体样式 */
+body {
+    /* 字体栈：优先使用系统字体，确保最佳渲染效果 */
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* 渐变背景：从深蓝到深紫的对角线渐变 */
+    background: linear-gradient(135deg, #1a1d2e 0%, #2d1f3f 100%);
+    
+    /* 文字颜色：默认白色 */
+    color: var(--text-primary);
+    
+    /* 高度：占满整个视口 */
+    height: 100vh;
+    
+    /* 禁止滚动：应用内部自行管理滚动 */
+    overflow: hidden;
+}
+
+/* 隐藏元素的工具类：使用 !important 确保优先级 */
+.hidden { 
+    display: none !important; 
+}
+
+/* ==================== 动画定义 ==================== */
+
+/* 淡入上移动画：用于登录框的入场效果 */
+@keyframes fadeInUp {
+    from { 
+        opacity: 0;                  /* 起始：完全透明 */
+        transform: translateY(20px); /* 起始：向下偏移 20px */
+    }
+    to { 
+        opacity: 1;                  /* 结束：完全不透明 */
+        transform: translateY(0);    /* 结束：回到原位 */
+    }
+}
+
+/* 淡入动画：用于消息的入场效果 */
+@keyframes fadeIn {
+    from { 
+        opacity: 0;                  /* 起始：完全透明 */
+        transform: translateY(10px); /* 起始：向下偏移 10px */
+    }
+    to { 
+        opacity: 1;                  /* 结束：完全不透明 */
+        transform: translateY(0);    /* 结束：回到原位 */
+    }
+}
+
+/* ==================== 登录界面样式 ==================== */
+
+/* 登录容器：全屏居中布局 */
+.login-container {
+    display: flex;              /* 弹性布局 */
+    justify-content: center;    /* 水平居中 */
+    align-items: center;        /* 垂直居中 */
+    height: 100vh;              /* 占满整个视口高度 */
+    padding: 20px;              /* 留出边距避免贴边 */
+}
+
+/* 登录卡片：中央的表单区域 */
+.login-box {
+    background: var(--bg-card);      /* 卡片背景色 */
+    padding: 48px 40px;              /* 内边距：上下 48px，左右 40px */
+    border-radius: 16px;             /* 圆角边框 */
+    box-shadow: var(--shadow-lg);    /* 大阴影增强层次感 */
+    width: 100%;                     /* 宽度自适应 */
+    max-width: 420px;                /* 最大宽度限制 */
+    text-align: center;              /* 文字居中 */
+    animation: fadeInUp 0.5s ease;   /* 入场动画：0.5 秒淡入上移 */
+}
+
+/* 登录标题基础样式 */
+.login-box h1 {
+    font-size: 32px;        /* 字体大小 */
+    margin-bottom: 12px;    /* 下边距 */
+}
+
+/* 登录标题自定义样式：覆盖默认 h1 样式 */
+.login-title {
+    font-size: 24px !important;  /* 字体大小（强制覆盖） */
+    line-height: 1.5;            /* 行高：适配多行文字 */
+    font-weight: 600;            /* 字重：半粗体 */
+}
+
+/* 副标题：登录提示文字 */
+.subtitle {
+    color: var(--text-secondary);  /* 次要文字颜色 */
+    margin-bottom: 32px;           /* 与输入框的间距 */
+    font-size: 15px;               /* 字体大小 */
+}
+
+/* 学校徽章容器：水平居中 */
+.school-badge {
+    display: flex;           /* 弹性布局 */
+    justify-content: center; /* 居中对齐 */
+    margin-bottom: 24px;     /* 与标题的间距 */
+}
+
+/* 学校 Logo 图片 */
+.school-logo {
+    width: 80px;                                  /* 宽度 */
+    height: 80px;                                 /* 高度 */
+    object-fit: contain;                          /* 保持图片比例 */
+    border-radius: 50%;                           /* 圆形 */
+    box-shadow: 0 4px 12px rgba(91, 122, 255, 0.3);  /* 蓝色光晕阴影 */
+    background: white;                            /* 白色背景（衬托 logo） */
+    padding: 4px;                                 /* 内边距（形成白边效果） */
+}
+
+/* 开发者水印：页面底部的版权信息 */
+.developer-watermark {
+    position: absolute;              /* 绝对定位 */
+    bottom: 20px;                    /* 距离底部 20px */
+    left: 50%;                       /* 左边距 50%（配合 transform 实现居中） */
+    transform: translateX(-50%);     /* 向左偏移自身宽度的 50%（水平居中） */
+    text-align: center;              /* 文字居中 */
+    color: var(--text-muted);        /* 弱化文字颜色 */
+    font-size: 13px;                 /* 字体大小 */
+    line-height: 1.6;                /* 行高 */
+    opacity: 0.7;                    /* 透明度：70% */
+}
+
+/* 水印段落：移除默认边距 */
+.developer-watermark p { 
+    margin: 0; 
+}
+
+/* 水印第一行：学校名称加粗 */
+.developer-watermark p:first-child {
+    font-weight: 600;               /* 字重：半粗体 */
+    color: var(--text-secondary);   /* 次要文字颜色（比第二行更亮） */
+}
+
+/* ==================== 表单控件样式 ==================== */
+
+/* 输入框通用样式：文本框、密码框、文本域 */
+input[type="text"],
+input[type="password"],
+textarea {
+    width: 100%;                       /* 宽度：100% 自适应父容器 */
+    padding: 14px 16px;                /* 内边距：上下 14px，左右 16px */
+    background: var(--bg-light);       /* 背景色：浅色背景 */
+    border: 2px solid transparent;     /* 边框：2px 透明（聚焦时显示颜色） */
+    border-radius: 8px;                /* 圆角：8px */
+    color: var(--text-primary);        /* 文字颜色：白色 */
+    font-size: 15px;                   /* 字体大小 */
+    transition: all 0.3s;              /* 过渡动画：0.3 秒所有属性 */
+    outline: none;                     /* 移除默认聚焦轮廓 */
+    font-family: inherit;              /* 继承父元素字体 */
+}
+
+/* 输入框聚焦状态：激活时的视觉反馈 */
+input[type="text"]:focus,
+input[type="password"]:focus,
+textarea:focus {
+    border-color: var(--primary-color);  /* 边框变为主色调（蓝色） */
+    background: var(--bg-dark);          /* 背景变深（增强对比） */
+}
+
+/* 输入框占位符样式：提示文字的颜色 */
+input[type="text"]::placeholder,
+input[type="password"]::placeholder,
+textarea::placeholder {
+    color: var(--text-muted);  /* 弱化文字颜色（灰色） */
+}
+
+/* 登录表单输入框：添加下边距分隔 */
+#usernameInput,
+#passwordInput {
+    margin-bottom: 16px;  /* 下边距：与按钮保持间距 */
+}
+
+/* ==================== 按钮样式 ==================== */
+
+/* 按钮基础样式：所有按钮的通用样式 */
+.btn {
+    padding: 14px 28px;      /* 内边距：上下 14px，左右 28px */
+    border: none;            /* 移除默认边框 */
+    border-radius: 8px;      /* 圆角：8px */
+    font-size: 15px;         /* 字体大小 */
+    font-weight: 600;        /* 字重：半粗体 */
+    cursor: pointer;         /* 鼠标悬停时显示手指光标 */
+    transition: all 0.3s;    /* 过渡动画：0.3 秒所有属性 */
+    outline: none;           /* 移除默认聚焦轮廓 */
+    font-family: inherit;    /* 继承父元素字体 */
+}
+
+/* 按钮禁用状态：不可点击时的样式 */
+.btn:disabled {
+    opacity: 0.5;            /* 透明度：50%（视觉上变暗） */
+    cursor: not-allowed;     /* 鼠标悬停时显示禁止光标 */
+}
+
+/* 主要按钮：用于主要操作（如加入聊天室） */
+.btn-primary {
+    background: var(--primary-color);  /* 背景色：主色调蓝色 */
+    color: white;                      /* 文字颜色：白色 */
+    width: 100%;                       /* 宽度：100% 占满容器 */
+}
+
+/* 主要按钮悬停效果：鼠标悬停时的视觉反馈 */
+.btn-primary:hover {
+    background: var(--primary-hover);              /* 背景色变深 */
+    transform: translateY(-2px);                   /* 向上移动 2px（浮起效果） */
+    box-shadow: 0 6px 16px rgba(91, 122, 255, 0.4);  /* 添加蓝色阴影 */
+}
+
+/* 主要按钮激活效果：点击时回到原位 */
+.btn-primary:active {
+    transform: translateY(0);  /* 取消浮起效果 */
+}
+
+/* 次要按钮：用于次要操作（如退出、切换） */
+.btn-secondary {
+    background: var(--bg-light);       /* 背景色：浅色背景 */
+    color: var(--text-secondary);      /* 文字颜色：次要文字色 */
+    padding: 10px 20px;                /* 内边距：比主要按钮小 */
+}
+
+/* 次要按钮悬停效果：鼠标悬停时的视觉反馈 */
+.btn-secondary:hover {
+    background: var(--bg-dark);     /* 背景色变深 */
+    color: var(--text-primary);     /* 文字变白（更醒目） */
+}
+
+/* 发送按钮：消息输入框旁的发送按钮 */
+.btn-send {
+    background: var(--primary-color);  /* 背景色：主色调蓝色 */
+    color: white;                      /* 文字颜色：白色 */
+    padding: 12px 16px;                /* 内边距：紧凑型 */
+    display: flex;                     /* 弹性布局 */
+    align-items: center;               /* 垂直居中 */
+    justify-content: center;           /* 水平居中 */
+}
+
+/* 发送按钮悬停效果 */
+.btn-send:hover {
+    background: var(--primary-hover);  /* 背景色变深 */
+}
+
+/* ==================== 聊天容器样式 ==================== */
+
+/* 聊天主容器：占满整个视口的垂直布局 */
+.chat-container {
+    display: flex;                /* 弹性布局 */
+    flex-direction: column;       /* 垂直方向排列（头部、主体、输入框） */
+    height: 100vh;                /* 高度：占满整个视口 */
+    background: var(--bg-dark);   /* 背景色：深色背景 */
+}
+
+/* 聊天头部导航栏：固定在顶部 */
+.chat-header {
+    display: flex;                            /* 弹性布局 */
+    justify-content: space-between;           /* 左右两端对齐 */
+    align-items: center;                      /* 垂直居中 */
+    padding: 16px 24px;                       /* 内边距：上下 16px，左右 24px */
+    background: var(--bg-card);               /* 背景色：卡片背景 */
+    border-bottom: 1px solid var(--border-color);  /* 底部边框分隔线 */
+    box-shadow: var(--shadow);                /* 阴影增强层次感 */
+    z-index: 10;                              /* 层级：确保在其他内容之上 */
+}
+
+/* 头部左侧区域：Logo + 标题 + 状态 */
+.header-left {
+    display: flex;        /* 弹性布局 */
+    align-items: center;  /* 垂直居中 */
+    gap: 16px;            /* 子元素间距：16px */
+}
+
+/* 头部标题（h2）：基础样式 */
+.header-left h2 {
+    font-size: 20px;    /* 字体大小 */
+    font-weight: 600;   /* 字重：半粗体 */
+}
+
+/* 头部 Logo：圆形校徽 */
+.header-logo {
+    width: 42px;                              /* 宽度 */
+    height: 42px;                             /* 高度 */
+    border-radius: 50%;                       /* 圆形 */
+    object-fit: cover;                        /* 覆盖裁剪（保持比例） */
+    border: 2px solid var(--primary-color);   /* 边框：主色调蓝色 */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* 轻微阴影 */
+    flex-shrink: 0;                           /* 不收缩（保持固定尺寸） */
+}
+
+/* 聊天标题：双行文字布局 */
+.chat-title {
+    display: flex;               /* 弹性布局 */
+    flex-direction: column;      /* 垂直方向排列 */
+    line-height: 1.3;            /* 行高 */
+    font-size: 16px !important;  /* 字体大小（强制覆盖） */
+}
+
+/* 标题第一行：学校和班级信息 */
+.chat-title .title-line1 {
+    font-size: 14px;    /* 字体大小 */
+    font-weight: 600;   /* 字重：半粗体 */
+}
+
+/* 标题第二行：应用名称 */
+.chat-title .title-line2 {
+    font-size: 13px;                /* 字体大小 */
+    font-weight: 500;               /* 字重：中等 */
+    color: var(--text-secondary);   /* 次要文字颜色 */
+}
+
+/* 连接状态指示器：显示 WebSocket 连接状态 */
+.status-indicator {
+    font-size: 14px;                /* 字体大小 */
+    color: var(--success-color);    /* 颜色：绿色（已连接） */
+}
+
+/* 连接状态：未连接时的样式 */
+.status-indicator.disconnected {
+    color: var(--danger-color);  /* 颜色：红色 */
+}
+
+/* 头部右侧区域：用户昵称 + 退出按钮 */
+.header-right {
+    display: flex;        /* 弹性布局 */
+    align-items: center;  /* 垂直居中 */
+    gap: 16px;            /* 子元素间距：16px */
+}
+
+/* 当前用户昵称显示 */
+.current-user {
+    color: var(--text-secondary);  /* 次要文字颜色 */
+    font-size: 14px;               /* 字体大小 */
+}
+
+/* ==================== 主内容区样式 ==================== */
+
+/* 主内容区容器：包含侧边栏和消息区 */
+.chat-main {
+    display: flex;     /* 弹性布局 */
+    flex: 1;           /* 占满剩余空间（头部下方） */
+    overflow: hidden;  /* 隐藏溢出内容 */
+}
+
+/* 用户列表侧边栏：左侧固定宽度 */
+.users-sidebar {
+    width: 260px;                            /* 固定宽度：260px */
+    background: var(--bg-card);              /* 背景色：卡片背景 */
+    border-right: 1px solid var(--border-color);  /* 右边框分隔线 */
+    display: flex;                           /* 弹性布局 */
+    flex-direction: column;                  /* 垂直方向排列 */
+}
+
+/* 侧边栏头部：标题和用户数 */
+.sidebar-header {
+    padding: 20px;                           /* 内边距 */
+    border-bottom: 1px solid var(--border-color);  /* 底部边框分隔线 */
+    display: flex;                           /* 弹性布局 */
+    justify-content: space-between;          /* 左右两端对齐 */
+    align-items: center;                     /* 垂直居中 */
+}
+
+/* 侧边栏标题（h3） */
+.sidebar-header h3 {
+    font-size: 16px;    /* 字体大小 */
+    font-weight: 600;   /* 字重：半粗体 */
+}
+
+/* 在线用户数徽章：蓝色圆角标签 */
+.user-count {
+    background: var(--primary-color);  /* 背景色：主色调蓝色 */
+    color: white;                      /* 文字颜色：白色 */
+    padding: 4px 10px;                 /* 内边距 */
+    border-radius: 12px;               /* 圆角：12px（椭圆形） */
+    font-size: 13px;                   /* 字体大小 */
+    font-weight: 600;                  /* 字重：半粗体 */
+}
+
+/* 用户列表：可滚动的用户昵称列表 */
+.users-list {
+    list-style: none;  /* 移除列表符号 */
+    padding: 12px;     /* 内边距 */
+    overflow-y: auto;  /* 垂直滚动 */
+    flex: 1;           /* 占满剩余空间 */
+}
+
+/* 用户列表项：单个用户昵称 */
+.user-item {
+    padding: 12px 16px;            /* 内边距：上下 12px，左右 16px */
+    margin-bottom: 6px;            /* 下边距：列表项之间的间距 */
+    background: var(--bg-light);   /* 背景色：浅色背景 */
+    border-radius: 8px;            /* 圆角：8px */
+    color: var(--text-secondary);  /* 文字颜色：次要文字色 */
+    font-size: 14px;               /* 字体大小 */
+    display: flex;                 /* 弹性布局 */
+    align-items: center;           /* 垂直居中 */
+    gap: 10px;                     /* 子元素间距（圆点和昵称） */
+    transition: all 0.2s;          /* 过渡动画：0.2 秒 */
+}
+
+/* 用户列表项悬停效果 */
+.user-item:hover {
+    background: var(--bg-dark);    /* 背景色变深 */
+    color: var(--text-primary);    /* 文字变白 */
+}
+
+/* 用户列表项前的在线状态圆点：使用伪元素 */
+.user-item::before {
+    content: '●';                 /* 内容：圆点字符 */
+    color: var(--success-color);  /* 颜色：绿色 */
+    font-size: 12px;              /* 字体大小 */
+}
+
+/* 当前用户高亮样式：区分当前登录用户 */
+.user-item.current-user-item {
+    background: var(--primary-color);  /* 背景色：主色调蓝色 */
+    color: white;                      /* 文字颜色：白色 */
+}
+
+/* 当前用户的在线状态圆点：白色 */
+.user-item.current-user-item::before {
+    color: white;  /* 颜色：白色 */
+}
+
+/* ==================== 消息区域样式 ==================== */
+
+/* 消息容器：包含消息显示区和输入区 */
+.messages-container {
+    flex: 1;                    /* 占满剩余空间 */
+    display: flex;              /* 弹性布局 */
+    flex-direction: column;     /* 垂直方向排列 */
+    background: var(--bg-dark); /* 背景色：深色背景 */
+}
+
+/* 消息显示区：可滚动的消息列表 */
+.messages-area {
+    flex: 1;                    /* 占满剩余空间 */
+    overflow-y: auto;           /* 垂直滚动 */
+    padding: 24px;              /* 内边距 */
+    display: flex;              /* 弹性布局 */
+    flex-direction: column;     /* 垂直方向排列 */
+    gap: 16px;                  /* 消息之间的间距 */
+}
+
+/* 滚动条样式：消息区和用户列表 */
+.messages-area::-webkit-scrollbar,
+.users-list::-webkit-scrollbar {
+    width: 8px;  /* 滚动条宽度 */
+}
+
+/* 滚动条轨道：透明背景 */
+.messages-area::-webkit-scrollbar-track,
+.users-list::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* 滚动条滑块：深色滑块 */
+.messages-area::-webkit-scrollbar-thumb,
+.users-list::-webkit-scrollbar-thumb {
+    background: var(--bg-light);  /* 背景色：浅色背景 */
+    border-radius: 4px;           /* 圆角 */
+}
+
+/* 滚动条滑块悬停效果：颜色加深 */
+.messages-area::-webkit-scrollbar-thumb:hover,
+.users-list::-webkit-scrollbar-thumb:hover {
+    background: var(--border-color);  /* 背景色：边框色 */
+}
+
+/* 消息项：单条消息的容器 */
+.message {
+    display: flex;                /* 弹性布局 */
+    gap: 12px;                    /* 头像和内容的间距 */
+    animation: fadeIn 0.3s ease;  /* 入场动画：淡入 */
+}
+
+/* 消息头像：用户昵称首字母圆形头像 */
+.message-avatar {
+    width: 40px;                                          /* 宽度 */
+    height: 40px;                                         /* 高度 */
+    border-radius: 50%;                                   /* 圆形 */
+    background: linear-gradient(135deg, var(--primary-color), #9b59b6);  /* 渐变背景：蓝到紫 */
+    display: flex;                                        /* 弹性布局 */
+    align-items: center;                                  /* 垂直居中 */
+    justify-content: center;                              /* 水平居中 */
+    font-weight: 600;                                     /* 字重：半粗体 */
+    font-size: 16px;                                      /* 字体大小 */
+    flex-shrink: 0;                                       /* 不收缩（保持固定尺寸） */
+}
+
+/* 消息内容：包含用户名、时间和消息文本 */
+.message-content {
+    flex: 1;        /* 占满剩余空间 */
+    min-width: 0;   /* 允许收缩（避免溢出） */
+}
+
+/* 消息头部：用户名和时间 */
+.message-header {
+    display: flex;          /* 弹性布局 */
+    align-items: baseline;  /* 基线对齐 */
+    gap: 10px;              /* 用户名和时间的间距 */
+    margin-bottom: 6px;     /* 与消息文本的间距 */
+}
+
+/* 消息用户名 */
+.message-username {
+    font-weight: 600;              /* 字重：半粗体 */
+    font-size: 14px;               /* 字体大小 */
+    color: var(--text-primary);    /* 文字颜色：白色 */
+}
+
+/* 消息时间戳 */
+.message-time {
+    font-size: 12px;            /* 字体大小 */
+    color: var(--text-muted);   /* 文字颜色：弱化灰色 */
+}
+
+/* 消息文本气泡：实际的消息内容 */
+.message-text {
+    background: var(--bg-card);     /* 背景色：卡片背景 */
+    padding: 12px 16px;             /* 内边距 */
+    border-radius: 8px;             /* 圆角 */
+    color: var(--text-secondary);   /* 文字颜色：次要文字色 */
+    font-size: 14px;                /* 字体大小 */
+    line-height: 1.6;               /* 行高（提升可读性） */
+    word-wrap: break-word;          /* 长单词自动换行 */
+    white-space: pre-wrap;          /* 保留空格和换行符 */
+}
+
+/* 系统消息：居中显示的系统通知 */
+.message.system-message {
+    justify-content: center;  /* 水平居中 */
+    opacity: 0.8;             /* 透明度：80%（弱化效果） */
+}
+
+/* 系统消息文本：无背景的居中文字 */
+.system-message .message-text {
+    background: transparent;        /* 背景：透明 */
+    color: var(--text-muted);       /* 文字颜色：弱化灰色 */
+    font-size: 13px;                /* 字体大小 */
+    text-align: center;             /* 文字居中 */
+    padding: 8px 16px;              /* 内边距 */
+}
+
+/* 欢迎消息：首次进入时的欢迎界面 */
+.welcome-message {
+    text-align: center;         /* 文字居中 */
+    padding: 40px 20px;         /* 内边距 */
+    color: var(--text-muted);   /* 文字颜色：弱化灰色 */
+}
+
+/* 欢迎消息标题 */
+.welcome-message h3 {
+    font-size: 24px;                /* 字体大小 */
+    margin-bottom: 12px;            /* 下边距 */
+    color: var(--text-secondary);   /* 文字颜色：次要文字色 */
+}
+
+/* 欢迎消息段落 */
+.welcome-message p {
+    font-size: 14px;  /* 字体大小 */
+}
+
+/* ==================== 输入区域样式 ==================== */
+
+/* 输入区域容器：底部固定的输入框区域 */
+.input-area {
+    padding: 20px 24px;                          /* 内边距 */
+    background: var(--bg-card);                  /* 背景色：卡片背景 */
+    border-top: 1px solid var(--border-color);   /* 顶部边框分隔线 */
+}
+
+/* 输入框包装器：文本框和发送按钮的横向布局 */
+.input-wrapper {
+    display: flex;          /* 弹性布局 */
+    gap: 12px;              /* 文本框和按钮的间距 */
+    align-items: flex-end;  /* 底部对齐 */
+}
+
+/* 输入框文本域：可自动调整高度的多行输入框 */
+.input-wrapper textarea {
+    flex: 1;              /* 占满剩余空间 */
+    resize: none;         /* 禁止手动调整大小（由 JS 控制） */
+    max-height: 120px;    /* 最大高度限制 */
+    min-height: 48px;     /* 最小高度 */
+}
+
+/* 输入框底部信息栏：字符计数和水印 */
+.input-footer {
+    display: flex;              /* 弹性布局 */
+    justify-content: space-between;  /* 左右两端对齐 */
+    align-items: center;        /* 垂直居中 */
+    margin-top: 8px;            /* 与输入框的间距 */
+}
+
+/* 字符计数显示：显示已输入字符数和最大限制 */
+#charCount {
+    font-size: 12px;            /* 字体大小 */
+    color: var(--text-muted);   /* 文字颜色：弱化灰色 */
+}
+
+/* 聊天水印：显示开发者信息 */
+.chat-watermark {
+    display: flex;              /* 弹性布局 */
+    align-items: center;        /* 垂直居中 */
+    gap: 6px;                   /* Logo 和文字的间距 */
+    color: var(--text-muted);   /* 文字颜色：弱化灰色 */
+    font-size: 11px;            /* 字体大小 */
+    opacity: 0.6;               /* 透明度：60%（弱化效果） */
+}
+
+/* 水印小 Logo：微型校徽图标 */
+.mini-logo {
+    width: 16px;          /* 宽度 */
+    height: 16px;         /* 高度 */
+    object-fit: contain;  /* 保持图片比例 */
+    border-radius: 50%;   /* 圆形 */
+    background: white;    /* 白色背景 */
+    padding: 1px;         /* 内边距（形成白边） */
+}
+
+/* 用户列表切换按钮：移动端显示 */
+#toggleUsersBtn {
+    padding: 8px 12px;  /* 内边距 */
+    min-width: 40px;    /* 最小宽度 */
+    display: none;      /* 默认隐藏（桌面端） */
+}
+
+/* ==================== 响应式设计 ==================== */
+
+/* 移动端样式：屏幕宽度 ≤ 768px（平板和手机） */
+@media (max-width: 768px) {
+    
+    /* 移动端 body 优化：禁用触摸高亮和长按菜单 */
+    body {
+        -webkit-tap-highlight-color: transparent;  /* 禁用点击高亮效果 */
+        -webkit-touch-callout: none;               /* 禁用长按弹出菜单 */
+    }
+
+    /* 用户列表切换按钮：在移动端显示 */
+    #toggleUsersBtn {
+        display: flex !important;      /* 显示按钮（强制覆盖） */
+        align-items: center;           /* 垂直居中 */
+        justify-content: center;       /* 水平居中 */
+    }
+
+    /* 用户列表侧边栏：移动端从左侧滑入 */
+    .users-sidebar {
+        position: fixed;                /* 固定定位 */
+        left: -100%;                    /* 初始位置：完全隐藏在左侧屏幕外 */
+        top: 0;                         /* 顶部对齐 */
+        height: 100vh;                  /* 高度：占满整个视口 */
+        width: 280px;                   /* 宽度 */
+        z-index: 1000;                  /* 层级：在遮罩层之上 */
+        transition: left 0.3s ease;     /* 过渡动画：0.3 秒滑入效果 */
+        box-shadow: var(--shadow-lg);   /* 大阴影 */
+    }
+
+    /* 侧边栏显示状态：滑入屏幕 */
+    .users-sidebar.show { 
+        left: 0;  /* 移动到左侧边界（完全显示） */
+    }
+
+    /* 侧边栏遮罩层：点击关闭侧边栏 */
+    .sidebar-overlay {
+        display: none;                    /* 默认隐藏 */
+        position: fixed;                  /* 固定定位 */
+        top: 0;                           /* 顶部对齐 */
+        left: 0;                          /* 左侧对齐 */
+        right: 0;                         /* 右侧对齐 */
+        bottom: 0;                        /* 底部对齐 */
+        background: rgba(0, 0, 0, 0.5);   /* 半透明黑色背景 */
+        z-index: 999;                     /* 层级：在侧边栏之下，其他内容之上 */
+    }
+
+    /* 遮罩层显示状态 */
+    .sidebar-overlay.show { 
+        display: block;  /* 显示遮罩层 */
+    }
+
+    /* 聊天头部：移动端紧凑布局 */
+    .chat-header {
+        padding: 12px 16px;  /* 减小内边距 */
+        flex-wrap: wrap;     /* 允许换行 */
+        gap: 8px;            /* 减小间距 */
+    }
+
+    /* 头部左侧：自适应宽度 */
+    .header-left {
+        flex: 1;          /* 占满剩余空间 */
+        min-width: 0;     /* 允许收缩 */
+        gap: 8px;         /* 减小间距 */
+    }
+
+    /* Logo：缩小尺寸 */
+    .header-logo {
+        width: 36px;          /* 宽度减小 */
+        height: 36px;         /* 高度减小 */
+        border-width: 1.5px;  /* 边框变细 */
+    }
+
+    /* 标题：单行显示，超出省略 */
+    .header-left h2 {
+        font-size: 16px;            /* 字体减小 */
+        white-space: nowrap;        /* 不换行 */
+        overflow: hidden;           /* 隐藏溢出 */
+        text-overflow: ellipsis;    /* 显示省略号 */
+    }
+
+    /* 聊天标题：移动端字体调整 */
+    .chat-title { font-size: 14px !important; }
+    .chat-title .title-line1 { font-size: 12px; }
+    .chat-title .title-line2 { font-size: 11px; }
+
+    /* 隐藏状态指示器和用户名：节省空间 */
+    .status-indicator,
+    .current-user {
+        display: none;
+    }
+
+    /* 头部右侧：减小间距 */
+    .header-right { gap: 8px; }
+
+    /* 次要按钮：缩小尺寸 */
+    .btn-secondary {
+        padding: 8px 16px;  /* 减小内边距 */
+        font-size: 13px;    /* 减小字体 */
+    }
+
+    /* 消息区域：紧凑布局 */
+    .messages-area {
+        padding: 12px;  /* 减小内边距 */
+        gap: 12px;      /* 减小间距 */
+    }
+
+    /* 消息头像：缩小尺寸 */
+    .message-avatar {
+        width: 36px;     /* 宽度减小 */
+        height: 36px;    /* 高度减小 */
+        font-size: 14px; /* 字体减小 */
+    }
+
+    /* 消息头部：紧凑间距 */
+    .message-header {
+        gap: 8px;            /* 减小间距 */
+        margin-bottom: 4px;  /* 减小下边距 */
+    }
+
+    /* 消息文字：字体调整 */
+    .message-username { font-size: 13px; }
+    .message-time { font-size: 11px; }
+
+    /* 消息文本：紧凑布局 */
+    .message-text {
+        padding: 10px 14px;  /* 减小内边距 */
+        font-size: 14px;     /* 调整字体 */
+        line-height: 1.5;    /* 调整行高 */
+    }
+
+    /* 输入区域：紧凑布局 */
+    .input-area { padding: 12px; }      /* 减小内边距 */
+    .input-wrapper { gap: 8px; }        /* 减小间距 */
+
+    /* 输入框：移动端优化 */
+    .input-wrapper textarea {
+        font-size: 16px;      /* 字体：16px 防止 iOS 自动缩放 */
+        min-height: 44px;     /* 最小高度：符合触摸目标大小 */
+        padding: 12px 14px;   /* 调整内边距 */
+    }
+
+    /* 发送按钮：符合触摸目标大小 */
+    .btn-send {
+        padding: 10px 14px;  /* 内边距 */
+        min-width: 44px;     /* 最小宽度：44px（触摸友好） */
+        min-height: 44px;    /* 最小高度：44px */
+    }
+
+    /* 输入框底部：减小间距 */
+    .input-footer { margin-top: 6px; }
+
+    /* 登录容器：减小内边距 */
+    .login-container { padding: 16px; }
+
+    /* 登录卡片：紧凑布局 */
+    .login-box {
+        padding: 32px 24px;  /* 减小内边距 */
+        border-radius: 12px; /* 减小圆角 */
+    }
+
+    /* 登录标题：字体调整 */
+    .login-box h1 {
+        font-size: 28px;      /* 减小字体 */
+        margin-bottom: 10px;  /* 减小间距 */
+    }
+
+    .login-title {
+        font-size: 20px !important;  /* 减小字体 */
+        line-height: 1.4;            /* 调整行高 */
+    }
+
+    /* 副标题：字体调整 */
+    .subtitle {
+        font-size: 14px;      /* 减小字体 */
+        margin-bottom: 24px;  /* 减小间距 */
+    }
+
+    /* 用户名输入框：移动端优化 */
+    #usernameInput {
+        font-size: 16px;      /* 字体：16px 防止 iOS 自动缩放 */
+        padding: 12px 14px;   /* 调整内边距 */
+    }
+
+    /* 主要按钮：符合触摸目标 */
+    .btn-primary {
+        padding: 14px 24px;  /* 调整内边距 */
+        font-size: 16px;     /* 调整字体 */
+        min-height: 48px;    /* 最小高度：触摸友好 */
+    }
+
+    /* 欢迎消息：紧凑布局 */
+    .welcome-message { padding: 30px 16px; }
+    .welcome-message h3 {
+        font-size: 20px;      /* 减小字体 */
+        margin-bottom: 10px;  /* 减小间距 */
+    }
+    .welcome-message p { font-size: 13px; }
+
+    /* 开发者水印：移动端调整 */
+    .developer-watermark {
+        bottom: 10px;     /* 减小底部距离 */
+        font-size: 11px;  /* 减小字体 */
+    }
+
+    /* 学校 Logo：缩小尺寸 */
+    .school-logo {
+        width: 60px;   /* 宽度减小 */
+        height: 60px;  /* 高度减小 */
+    }
+
+    /* 聊天水印：移动端简化 */
+    .chat-watermark {
+        font-size: 10px;  /* 减小字体 */
+        gap: 4px;         /* 减小间距 */
+    }
+
+    /* 水印文字：移动端隐藏（节省空间） */
+    .chat-watermark span { display: none; }
+
+    /* 水印 Logo：缩小尺寸 */
+    .mini-logo {
+        width: 14px;   /* 宽度减小 */
+        height: 14px;  /* 高度减小 */
+    }
+}
+
+/* 小屏手机样式：屏幕宽度 ≤ 375px（如 iPhone SE） */
+@media (max-width: 375px) {
+    .header-logo {
+        width: 32px;   /* Logo 进一步缩小 */
+        height: 32px;
+    }
+
+    .header-left h2 { font-size: 15px; }              /* 标题字体减小 */
+    .message-text { font-size: 13px; }                /* 消息字体减小 */
+    .login-box h1 { font-size: 24px; }                /* 登录标题减小 */
+    .login-title { font-size: 18px !important; }      /* 登录标题减小 */
+    .chat-title .title-line1 { font-size: 11px; }     /* 聊天标题减小 */
+    .chat-title .title-line2 { font-size: 10px; }
+    .users-sidebar { width: 240px; }                  /* 侧边栏宽度减小 */
+}
+
+/* 平板样式：屏幕宽度 769px - 1024px */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .users-sidebar { width: 220px; }       /* 侧边栏宽度适中 */
+    .chat-header { padding: 14px 20px; }   /* 头部内边距适中 */
+    .messages-area { padding: 20px; }      /* 消息区内边距适中 */
+} 
