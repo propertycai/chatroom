@@ -12,7 +12,7 @@
 // ==================== 客户端配置 ====================
 const SERVER_HOST = 'frp-end.com'; // 服务器主机地址（生产环境需修改为实际地址）
 const SERVER_PORT = 54038; // 服务器端口号（必须与服务端一致）
-const WS_URL = `ws://selenic-debbi-nonstably.ngrok-free.dev`; // WebSocket 连接 URL（格式：ws://主机:端口）
+const WS_URL = `wss://selenic-debbi-nonstably.ngrok-free.dev`; // WebSocket 连接 URL（格式：ws://主机:端口）
 const MESSAGE_MAX_LENGTH = 500; // 消息最大长度（必须与服务端一致）
 // 演示模式配置（服务器离线时使用，用于界面预览）
 const DEMO_USERS = ['演示用户1', '演示用户2']; // 模拟的在线用户列表
